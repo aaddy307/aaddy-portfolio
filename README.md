@@ -1,36 +1,216 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Aaddy Portfolio
+
+A modern, responsive personal portfolio website built with **Next.js 16 (App Router)**, **Tailwind CSS v4**, and **Framer Motion**.
+
+## Features
+
+- **Hero Section** — Animated gradient orbs, stats badges, dual CTAs
+- **About** — Bio, stats cards, focus tags, resume & social links
+- **Skills** — 3 categories with animated stagger entrance, "Currently Exploring" section
+- **Projects** — Category filter pills, grid/list toggle, hover-reveal cards
+- **Services** — 4 service cards with icons, hover effects, CTA to contact
+- **Contact** — Floating-label inputs, real-time validation, Resend email API
+- **Footer** — 4-column nav, social links, scroll-to-top
+- **Sticky Navbar** — Active section tracking, mobile drawer, theme toggle
+- **Dark/Light Mode** — Single accent color (cyan #22d3ee), CSS custom properties
+- **Accessibility** — Semantic HTML, focus-visible outlines, reduced-motion support
+- **SEO** — Metadata, Open Graph, Twitter cards, sitemap, robots.txt, JSON-LD Person schema
+
+## Tech Stack
+
+- **Framework:** Next.js 16.4.5 (App Router, Turbopack)
+- **Styling:** Tailwind CSS v4 with CSS custom properties
+- **Animation:** Framer Motion 12
+- **Fonts:** Space Grotesk (display) + Inter (body) via `next/font`
+- **Email:** Resend API route
+- **Language:** TypeScript (strict mode)
+- **Linting:** ESLint (Next.js config)
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18.17+
+- npm / pnpm / yarn
+
+### Installation
 
 ```bash
+# Clone the repository
+git clone <your-repo-url>
+cd aaddy-portfolio
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a `.env.local` file in the root:
 
-## Learn More
+```env
+# Resend (for contact form emails)
+RESEND_API_KEY=re_xxxxxxxxxxxxx
+CONTACT_EMAIL=your-email@example.com
+```
 
-To learn more about Next.js, take a look at the following resources:
+The contact form works without Resend configured — it falls back to console logging.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```
+src/
+├── app/
+│   ├── api/contact/route.ts    # Resend email API
+│   ├── globals.css             # Design system, CSS variables, utilities
+│   ├── layout.tsx              # Fonts, metadata, JSON-LD schema
+│   ├── page.tsx                # Main page composition
+│   ├── robots.ts               # robots.txt generation
+│   └── sitemap.ts              # sitemap.xml generation
+├── components/
+│   ├── Navbar.tsx              # Sticky nav, mobile drawer, theme toggle
+│   ├── Hero.tsx                # Gradient orbs, stats, CTAs
+│   ├── About.tsx               # Bio, stats cards, focus tags
+│   ├── Skills.tsx              # Category buttons, exploring section
+│   ├── Projects.tsx            # Filter, grid/list, project cards
+│   ├── Services.tsx            # Service cards with icons
+│   ├── Contact.tsx             # Form with validation, info cards
+│   ├── Footer.tsx              # 4-col nav, social links, scroll-top
+│   └── ThemeToggle.tsx         # Dark/light switch
+├── data/
+│   └── projects.ts             # All content data (projects, skills, services, personal)
+└── public/
+    └── projects/               # Project placeholder images (.svg)
+```
 
-## Deploy on Vercel
+## Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Personal Info
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Edit `src/data/projects.ts`:
+
+```typescript
+export const personal = {
+  name: "Your Name",
+  title: "Your Title",
+  tagline: "Your tagline",
+  bio: "Your bio...",
+  email: "you@example.com",
+  location: "City, Country",
+  github: "https://github.com/you",
+  linkedin: "https://linkedin.com/in/you",
+  resume: "/resume.pdf",
+  avatar: "/avatar.jpg",
+};
+```
+
+### Projects
+
+Add/modify projects in `src/data/projects.ts`:
+
+```typescript
+export const projects = [
+  {
+    id: "unique-id",
+    title: "Project Name",
+    description: "Description...",
+    category: "Full Stack",
+    tags: ["React", "Node.js", "MongoDB"],
+    image: "/projects/project-name.svg",
+    liveUrl: "https://demo.example.com",
+    githubUrl: "https://github.com/you/repo",
+    featured: true,
+    year: 2025,
+  },
+];
+```
+
+### Skills & Services
+
+Update the `skills` and `services` arrays in the same file.
+
+### Colors
+
+Modify CSS custom properties in `src/app/globals.css`:
+
+```css
+:root {
+  --accent: #22d3ee;        /* Primary accent (cyan) */
+  --accent-muted: #06b6d4;  /* Accent variant */
+  --background: #030305;    /* Dark bg */
+  --foreground: #fafafa;    /* Dark text */
+  /* ... */
+}
+
+.light {
+  --background: #fafafa;    /* Light bg */
+  --foreground: #030305;    /* Light text */
+  /* ... */
+}
+```
+
+### Fonts
+
+Change fonts in `src/app/layout.tsx`:
+
+```typescript
+const displayFont = Space_Grotesk({ subsets: ["latin"], variable: "--font-display" });
+const bodyFont = Inter({ subsets: ["latin"], variable: "--font-body" });
+```
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start dev server (Turbopack) |
+| `npm run build` | Production build |
+| `npm run start` | Run production server |
+| `npm run lint` | Run ESLint |
+
+## Deployment
+
+### Vercel (Recommended)
+
+1. Push to GitHub/GitLab/Bitbucket
+2. Import project in [Vercel Dashboard](https://vercel.com/dashboard)
+3. Add environment variables:
+   - `RESEND_API_KEY`
+   - `CONTACT_EMAIL`
+4. Deploy
+
+Vercel auto-detects Next.js and configures optimal settings.
+
+### Other Platforms
+
+The app is a standard Next.js project — deploy anywhere Node.js is supported:
+
+```bash
+npm run build
+npm run start
+```
+
+### Static Export (if needed)
+
+For fully static hosting, add to `next.config.ts`:
+
+```typescript
+const nextConfig = {
+  output: "export",
+  images: { unoptimized: true },
+};
+```
+
+Note: The contact API route requires a server — it won't work with static export.
+
+## License
+
+MIT — feel free to use as a template for your own portfolio.
+
+---
+
+Built with ❤️ using Next.js, Tailwind CSS & Framer Motion.

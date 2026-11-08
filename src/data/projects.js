@@ -1,0 +1,121 @@
+export const projects = [
+  {
+    id: 1,
+    title: "MediAI",
+    description: "Healthcare platform with four role-based panels (User, Doctor, Admin, Super Admin). Features: Socket.io/WebRTC, Groq AI, OCR, facial recognition, React Native app.",
+    image: "/projects/medi-ai.svg",
+    tags: ["React", "Node.js", "Socket.io", "WebRTC", "Groq API", "React Native", "TypeScript"],
+    liveUrl: "https://medi-ai-frontend.vercel.app",
+    githubUrl: "[ADD: GitHub URL]",
+    featured: true,
+    category: "Full Stack",
+    year: "2024",
+  },
+  {
+    id: 2,
+    title: "Amar Jeans",
+    description: "D2C denim e-commerce storefront. Stack: Next.js, Express, MongoDB.",
+    image: "/projects/amar-jeans.svg",
+    tags: ["Next.js", "Express", "MongoDB", "JavaScript"],
+    liveUrl: "[ADD: Live URL]",
+    githubUrl: "[ADD: GitHub URL]",
+    featured: true,
+    category: "E-commerce",
+    year: "2024",
+  },
+  {
+    id: 3,
+    title: "Brigid Factory",
+    description: "Factory management app and website for a leather footwear manufacturer. Stack: React Native/Expo, Node.js, TypeScript.",
+    image: "/projects/brigid-factory.svg",
+    tags: ["React Native", "Expo", "Node.js", "TypeScript"],
+    liveUrl: "[ADD: Live URL]",
+    githubUrl: "[ADD: GitHub URL]",
+    featured: false,
+    category: "Mobile App",
+    year: "2023",
+  },
+  {
+    id: 4,
+    title: "Fluid Valve",
+    description: "B2B industrial valve catalog and inquiry site. Stack: Next.js 14, Express, JavaScript.",
+    image: "/projects/fluid-valve.svg",
+    tags: ["Next.js", "Express", "JavaScript"],
+    liveUrl: "[ADD: Live URL]",
+    githubUrl: "[ADD: GitHub URL]",
+    featured: false,
+    category: "B2B",
+    year: "2023",
+  },
+  {
+    id: 5,
+    title: "More Client Work",
+    description: "Real estate, loan consultancy, and industrial client websites.",
+    image: "/projects/client-work.svg",
+    tags: ["Next.js", "Express", "MongoDB", "React"],
+    liveUrl: "#",
+    githubUrl: "#",
+    featured: false,
+    category: "Client Work",
+    year: "2023",
+  },
+];
+
+export const skills = [
+  "MongoDB",
+  "Express",
+  "React",
+  "Node.js",
+  "Next.js",
+  "React Native",
+  "Expo",
+  "TypeScript",
+  "JavaScript",
+  "Socket.io",
+  "WebRTC",
+  "Groq API",
+  "Vercel",
+  "AI coding agents",
+];
+
+export const services = [
+  {
+    title: "Web Development",
+    description: "Modern, responsive websites built with Next.js and React. Optimized for performance, SEO, and accessibility.",
+    icon: "code",
+  },
+  {
+    title: "E-commerce",
+    description: "Full-featured online stores with cart, checkout, payments, and admin dashboards. Built on MERN stack.",
+    icon: "shopping-cart",
+  },
+  {
+    title: "Business Websites",
+    description: "Professional websites for real estate, consultancy, industrial, and service businesses. CMS-friendly.",
+    icon: "briefcase",
+  },
+  {
+    title: "Full-Stack Apps",
+    description: "End-to-end applications with authentication, databases, real-time features, and mobile companions.",
+    icon: "layers",
+  },
+];
+
+export const personal = {
+  name: "Aaddy",
+  title: "MERN Stack Developer & Freelance Web Developer",
+  tagline: "Full-stack developer building web apps with the MERN stack and AI.",
+  bio: "First-year IT student at Nexcore Institute of Technology. 10+ completed client projects across e-commerce, real estate, industrial, and loan consultancy sectors. Builds full-stack projects by orchestrating AI coding agents. Co-founder of MediAI.",
+  email: process.env.NEXT_PUBLIC_CONTACT_EMAIL || "[ADD: Email]",
+  linkedin: process.env.NEXT_PUBLIC_LINKEDIN_URL || "[ADD: LinkedIn URL]",
+  github: process.env.NEXT_PUBLIC_GITHUB_URL || "[ADD: GitHub URL]",
+  location: "India",
+  resume: "/resume.pdf",
+  avatar: "/avatar.jpg",
+};
+
+export const socialLinks = [
+  { name: "GitHub", url: personal.github, icon: "github" },
+  { name: "LinkedIn", url: personal.linkedin, icon: "linkedin" },
+  { name: "Email", url: `mailto:${personal.email}`, icon: "email" },
+];
