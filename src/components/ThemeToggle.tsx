@@ -52,6 +52,7 @@ export default function ThemeToggle() {
       onClick={toggle}
       aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
       className="relative h-10 w-10 rounded-lg glass flex items-center justify-center focus-ring transition-all hover:glass-strong group"
+      data-cursor={dark ? "LIGHT MODE" : "DARK MODE"}
     >
       <motion.div
         initial={false}
@@ -65,7 +66,7 @@ export default function ThemeToggle() {
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
-            className="h-5 w-5 text-accent"
+            className="h-5 w-5 text-[var(--accent)]"
           >
             <circle cx="12" cy="12" r="5" />
             <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" />
@@ -76,7 +77,7 @@ export default function ThemeToggle() {
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
-            className="h-5 w-5 text-muted-foreground"
+            className="h-5 w-5 text-[var(--muted-foreground)]"
           >
             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
           </motion.svg>

@@ -1,126 +1,215 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { personal } from "@/data/projects";
-import Link from "next/link";
+import dynamic from "next/dynamic";
+
+const WordmarkCanvas = dynamic(
+  () => import("./WordmarkCanvas").then((mod) => mod.default),
+  { ssr: false }
+);
+
+const agentLogLines = [
+  { type: "prompt", text: "> INIT ORCHESTRATOR" },
+  { type: "info", text: "  Loading agent registry..." },
+  { type: "success", text: "  [OK] 12 agents registered" },
+  { type: "prompt", text: "> DEPLOY MediAI" },
+  { type: "info", text: "  Scaffolding 4 role-based panels..." },
+  { type: "success", text: "  [OK] User / Doctor / Admin / SuperAdmin" },
+  { type: "info", text: "  Socket.io + WebRTC initialized" },
+  { type: "info", text: "  Groq AI + OCR + Facial recognition ready" },
+  { type: "success", text: "  [OK] React Native companion linked" },
+  { type: "prompt", text: "> BUILD 10+ CLIENT PROJECTS" },
+  { type: "info", text: "  E-commerce / Real estate / Industrial / Finance" },
+  { type: "success", text: "  [OK] All builds passing" },
+  { type: "prompt", text: "> SYS.STATUS: AVAILABLE" },
+  { type: "success", text: "  Orchestrator online. Standing by." },
+];
 
 export default function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [showWordmark, setShowWordmark] = useState(false);
+  const [showLog, setShowLog] = useState(false);
+  const [showCTAs, setShowCTAs] = useState(false);
+  const [showIndicator, setShowIndicator] = useState(false);
+
+  const isMobileRef = useRef(false);
+  const prefersReducedMotionRef = useRef(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 768px)");
+    isMobileRef.current = mq.matches;
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => {
+      isMobileRef.current = e.matches;
+      setIsMobile(e.matches);
+    };
+    mq.addEventListener?.("change", handler);
+    return () => mq.removeEventListener?.("change", handler);
+  }, []);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    prefersReducedMotionRef.current = mq.matches;
+    setPrefersReducedMotion(mq.matches);
+    const handler = (e: MediaQueryListEvent) => {
+      prefersReducedMotionRef.current = e.matches;
+      setPrefersReducedMotion(e.matches);
+    };
+    mq.addEventListener?.("change", handler);
+    return () => mq.removeEventListener?.("change", handler);
+  }, []);
+
+  useEffect(() => {
+    const timeline = [
+      { key: "showWordmark", delay: 0 },
+      { key: "showLog", delay: prefersReducedMotion ? 100 : 400 },
+      { key: "showCTAs", delay: prefersReducedMotion ? 200 : 800 },
+      { key: "showIndicator", delay: prefersReducedMotion ? 300 : 1200 },
+    ];
+
+    timeline.forEach(({ key, delay }) => {
+      setTimeout(() => {
+        if (key === "showWordmark") setShowWordmark(true);
+        if (key === "showLog") setShowLog(true);
+        if (key === "showCTAs") setShowCTAs(true);
+        if (key === "showIndicator") setShowIndicator(true);
+      }, delay);
+    });
+  }, [prefersReducedMotion]);
+
   return (
-    <section id="hero" className="relative min-h-screen flex items-center justify-center pt-16 md:pt-20 overflow-hidden">
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-3xl opacity-30 animate-float" style={{ background: "radial-gradient(circle, var(--accent) 0%, transparent 70%)" }} />
-        <div className="absolute top-0 right-1/4 w-[600px] h-[600px] rounded-full blur-3xl opacity-20 animate-pulse-glow" style={{ background: "radial-gradient(circle, var(--accent-muted) 0%, transparent 70%)" }} />
-        <div className="absolute bottom-0 left-1/4 w-[500px] h-[500px] rounded-full blur-3xl opacity-15" style={{ background: "radial-gradient(circle, var(--accent) 0%, transparent 70%)" }} />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_0%,_var(--background)_70%)]" />
-      </div>
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="grain" aria-hidden="true" />
+      <div className="grid-bg" aria-hidden="true" />
 
-      <div className="absolute inset-0 -z-10" aria-hidden="true">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2322d3ee' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          opacity: 0.5,
-        }} />
-      </div>
+      <div className="section-container relative z-10 w-full">
+        <div className="flex flex-col lg:flex-row items-start justify-between gap-8 lg:gap-16 pt-20 lg:pt-0">
+          <div className="flex-1 min-w-0 lg:pr-8">
+            <motion.div
+              className="reveal-line"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: showWordmark ? 1 : 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ opacity: showWordmark ? 1 : 0 }}
+            >
+              <span className="display-hero text-foreground">AADDY</span>
+              {(!isMobile && !prefersReducedMotion) && (
+                <div className="mt-4 max-w-full">
+                  <WordmarkCanvas />
+                </div>
+              )}
+            </motion.div>
 
-      <div className="section-container relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="max-w-4xl text-center md:text-left"
-        >
-          <motion.span
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full glass-border text-sm font-medium text-accent mb-6"
-          >
-            <span className="relative h-2 w-2 rounded-full bg-accent animate-pulse" />
-            {personal.title}
-          </motion.span>
+            <motion.div
+              className="mt-6 lg:mt-10"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: showLog ? 1 : 0, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+              style={{ opacity: showLog ? 1 : 0 }}
+            >
+              <p className="micro-label accent mb-4">01 / HERO</p>
+              <p className="text-lg lg:text-xl text-muted-foreground max-w-xl leading-relaxed">
+                Full-stack developer building web apps with the MERN stack and AI.{" "}
+                <span className="font-medium text-foreground">10+ client projects</span>{" "}
+                across e-commerce, real estate, industrial, and loan consultancy sectors.
+              </p>
+            </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-bold tracking-tight leading-[1.05] mb-6"
-          >
-            <span className="text-foreground block">Hi, I&apos;m</span>
-            <span className="gradient-text block">Aaddy</span>
-          </motion.h1>
+            <motion.div
+              className="mt-10 lg:mt-16 flex flex-wrap items-center gap-4"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: showCTAs ? 1 : 0, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{ opacity: showCTAs ? 1 : 0 }}
+            >
+              <a
+                href="#projects"
+                className="magnetic-btn btn-primary px-8 py-4 text-lg focus-ring"
+                style={{
+                  background: "linear-gradient(135deg, var(--accent), var(--accent-muted))",
+                  color: "var(--background)",
+                }}
+              >
+                View Work
+              </a>
+              <a
+                href="#contact"
+                className="magnetic-btn btn-secondary px-8 py-4 text-lg focus-ring"
+                style={{
+                  borderColor: "var(--border)",
+                  background: "var(--card)",
+                  color: "var(--foreground)",
+                }}
+              >
+                Let&apos;s Build
+              </a>
+            </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.7 }}
-            className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto md:mx-0 mb-10 leading-relaxed"
-          >
-            {personal.tagline}
-          </motion.p>
+            <motion.div
+              className="mt-16 lg:mt-24"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: showIndicator ? 1 : 0, y: 0 }}
+              transition={{ delay: 1.2, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+              style={{ opacity: showIndicator ? 1 : 0 }}
+            >
+              <div className="flex items-center gap-4">
+                <p className="micro-label">SYS.STATUS</p>
+                <div className="status-indicator active">
+                  <span>ORCHESTRATOR ONLINE</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="flex flex-col sm:flex-row items-center justify-center md:justify-start gap-4 mb-16"
+            className="hidden lg:block w-96"
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: showLog ? 1 : 0, x: 0 }}
+            transition={{ delay: 0.6, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+            style={{ opacity: showLog ? 1 : 0 }}
           >
-            <Link
-              href="#contact"
-              className="btn-primary w-full sm:w-auto"
-            >
-              Start a Project
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="inline h-4 w-4 ml-2">
-                <path d="M5 12h14M13 6l6 6-6 6" />
-              </svg>
-            </Link>
-            <Link
-              href="#projects"
-              className="btn-secondary w-full sm:w-auto"
-            >
-              View Work
-            </Link>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.7 }}
-            className="flex flex-wrap items-center justify-center md:justify-start gap-8 text-sm text-muted-foreground"
-          >
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-px bg-gradient-to-b from-accent to-accent-muted" />
-              <span>10+ Projects Delivered</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-px bg-gradient-to-b from-accent to-accent-muted" />
-              <span>MERN Stack Specialist</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="h-8 w-px bg-gradient-to-b from-accent to-accent-muted" />
-              <span>AI-Augmented Development</span>
+            <div className="agent-log bg-[var(--card)] border border-[var(--border)] p-6 h-[400px] overflow-y-auto">
+              {agentLogLines.map((line, i) => (
+                <motion.div
+                  key={i}
+                  className={`agent-log-line ${line.type}`}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + i * 0.12, duration: 0.4 }}
+                >
+                  <span className="prompt">{line.type === "prompt" ? line.text : ""}</span>
+                  <span className={line.type === "success" ? "success" : line.type === "info" ? "info" : ""}>
+                    {line.type !== "prompt" ? line.text : ""}
+                  </span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float"
-        >
-          <motion.a
-            href="#about"
-            whileHover={{ y: -4 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex flex-col items-center gap-2 text-muted-foreground hover:text-accent transition-colors"
-            aria-label="Scroll down"
-          >
-            <span className="text-xs uppercase tracking-wider">Explore</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="h-6 w-6">
-              <path d="M12 5v14M19 12l-7 7-7-7" />
-            </svg>
-          </motion.a>
-        </motion.div>
+        </div>
       </div>
+
+      <motion.div
+        className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex flex-col items-center gap-2"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: showIndicator ? 1 : 0 }}
+        transition={{ delay: 1.4, duration: 0.6 }}
+        style={{ opacity: showIndicator ? 1 : 0 }}
+      >
+        <p className="micro-label">SCROLL</p>
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          className="w-1 h-8 border border-[var(--accent)] rounded-full flex items-end justify-center p-1"
+        >
+          <motion.div
+            className="w-full h-1.5 bg-[var(--accent)] rounded-full"
+            animate={{ scaleY: [1, 0.3, 1] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+          />
+        </motion.div>
+      </motion.div>
     </section>
   );
 }

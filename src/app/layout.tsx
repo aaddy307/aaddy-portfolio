@@ -28,6 +28,7 @@ export const metadata: Metadata = {
   creator: "Aaddy",
   publisher: "Aaddy",
   robots: "index, follow",
+  metadataBase: new URL("http://localhost:3000"),
   openGraph: {
     type: "website",
     locale: "en_US",
